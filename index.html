@@ -3,65 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختبار الصراحة</title>
+    <title>اختبار التوافق الصريح 2026</title>
     <style>
         body {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100vh; margin: 0; font-family: 'Arial', sans-serif; background-color: #ffeef8;
-            overflow: hidden; text-align: center;
+            height: 100vh; margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f7f9fc;
+            overflow: hidden; text-align: center; color: #333;
         }
-        h1 { color: #d63384; }
-        .buttons { margin-top: 20px; position: relative; width: 100%; height: 300px; }
+        .container {
+            background-color: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 90%; position: relative;
+        }
+        h1 { color: #2c3e50; font-size: 2.2rem; margin-top: 0; }
+        .funny-text { font-size: 1.3rem; color: #e74c3c; margin: 15px 0; font-weight: bold; min-height: 1.5em;}
+        .buttons { display: flex; gap: 20px; justify-content: center; margin-top: 30px; position: relative; width: 100%; height: 60px; }
         button {
-            padding: 15px 30px; font-size: 1.2rem; border: none; border-radius: 25px;
-            cursor: pointer; transition: 0.3s; position: absolute;
+            padding: 15px 35px; font-size: 1.2rem; border: none; border-radius: 50px;
+            cursor: pointer; transition: all 0.2s ease; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        #yesBtn { background-color: #ff4d6d; color: white; left: 50%; transform: translateX(-110%); }
-        #noBtn { background-color: #6c757d; color: white; left: 50%; transform: translateX(10%); }
+        button:active { transform: scale(0.95); }
+        #yesBtn { background-color: #2ecc71; color: white; } /* زر نعم أخضر */
+        #yesBtn:hover { background-color: #27ae60; }
+        #noBtn { background-color: #95a5a6; color: white; position: absolute; left: 50%; transform: translateX(10%); } /* موضع ابتدائي لـ لا */
         #result { display: none; }
-        img { width: 200px; border-radius: 15px; margin-top: 20px; }
+        #result h1 { color: #e74c3c; font-size: 3rem; }
+        .gif-container { margin-bottom: 20px; min-height: 200px;}
+        .gif-container img { max-width: 200px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
 
-    <div id="quiz">
+    <div id="quiz" class="container">
+        <div class="gif-container" id="quizGif">
+            </div>
         <h1 id="question">أحبك.. هل تحبني؟</h1>
-        <p id="funnyText"></p>
+        <p class="funny-text" id="funnyText"></p>
         <div class="buttons">
             <button id="yesBtn" onclick="showSurprise()">نعم</button>
             <button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">لا</button>
         </div>
     </div>
 
-    <div id="result">
+    <div id="result" class="container">
+        <div class="gif-container">
+            <img src="https://media.giphy.com/media/2g6sCTsSoVuSfSxK4W/giphy.gif" alt="Happy Cat">
+        </div>
         <h1>كذبة أول أبريل! 😜</h1>
-        <p>أصلاً كنت بمزح معك.. تعيش وتأكل غيرها!</p>
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mlvseq9nOeZh6/giphy.gif" alt="Happy Cat">
+        <p style="font-size: 1.5rem;">أصلاً كنت بمزح معك.. تعيش وتأكل غيرها!</p>
     </div>
 
     <script>
         let noCount = 0;
         const funnyPhrases = [
-            "ليش القسوة؟ جرب مرة ثانية!",
-            "ما توقعتها منك.. فكر منيح!",
-            "الزر عم يهرب لأنك عم تكذب!",
-            "خلص هي آخر فرصة.. قول نعم!"
+            "ليش القسوة؟ جرب مرة ثانية! 😢",
+            "ما توقعتها منك.. فكر منيح! 🤔",
+            "الزر عم يهرب لأنك عم تكذب! 😂",
+            "خلص هي آخر فرصة.. قول نعم! 😉"
+        ];
+
+        // روابط الـ GIFs التي طلبتها
+        const quizGifs = [
+            "https://media.giphy.com/media/901mxGLGQN2PyCQpoc/giphy.gif", // جيف الفأر لـ لا الأولى
+            "https://media.giphy.com/media/Ev477g37MJORyOWfdG/giphy.gif"  // جيف الدب لـ لا الثانية
         ];
 
         function moveNo() {
+            const noBtn = document.getElementById('noBtn');
+            const quizGifContainer = document.getElementById('quizGif');
+
+            // تحديث النص الفكاهي
+            document.getElementById('funnyText').innerText = funnyPhrases[noCount];
+
+            // تحديث الجيف إذا كانت المرة الأولى أو الثانية
+            if (noCount < 2) {
+                quizGifContainer.innerHTML = `<img src="${quizGifs[noCount]}" alt="Funny GIF">`;
+            } else {
+                // بعد المرة الثانية، قد ترغب في إزالة الجيف أو ترك الأخير
+                // quizGifContainer.innerHTML = ''; // خيار لإزالة الجيف
+            }
+
             if (noCount < 4) {
-                const x = Math.random() * (window.innerWidth - 100);
-                const y = Math.random() * (window.innerHeight - 100);
-                const noBtn = document.getElementById('noBtn');
+                // تحريك زر "لا" بشكل عشوائي
+                const x = Math.random() * (window.innerWidth - 150);
+                const y = Math.random() * (window.innerHeight - 150);
+                noBtn.style.position = 'fixed'; // لتسهيل التحريك الحر
                 noBtn.style.left = x + 'px';
                 noBtn.style.top = y + 'px';
                 
-                document.getElementById('funnyText').innerText = funnyPhrases[noCount];
                 noCount++;
             } else {
                 // بعد 4 مرات، يختفي زر "لا" تماماً ويظهر زر "نعم" إضافي
-                document.getElementById('noBtn').style.display = 'none';
-                document.getElementById('funnyText').innerText = "ليش بتكرهني؟ ما في غير نعم هلق!";
+                noBtn.style.display = 'none';
+                document.getElementById('funnyText').innerText = "ليش بتكرهني؟ ما في غير نعم هلق! 😊";
+                document.getElementById('yesBtn').style.transform = 'none'; // إعادة تعيين تحويل زر نعم الأصلي
+                document.getElementById('yesBtn').style.position = 'static'; 
+                
                 createExtraYes();
             }
         }
@@ -69,8 +105,9 @@
         function createExtraYes() {
             const btn = document.createElement("button");
             btn.innerHTML = "نعم";
-            btn.style.backgroundColor = "#ff4d6d";
+            btn.style.backgroundColor = "#2ecc71"; // لون أخضر
             btn.style.color = "white";
+            btn.style.position = 'fixed';
             btn.style.left = "30%";
             btn.style.top = "70%";
             btn.onclick = showSurprise;
