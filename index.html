@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الصراحة</title>
+    <style>
+        body {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100vh; margin: 0; font-family: 'Arial', sans-serif; background-color: #ffeef8;
+            overflow: hidden; text-align: center;
+        }
+        h1 { color: #d63384; }
+        .buttons { margin-top: 20px; position: relative; width: 100%; height: 300px; }
+        button {
+            padding: 15px 30px; font-size: 1.2rem; border: none; border-radius: 25px;
+            cursor: pointer; transition: 0.3s; position: absolute;
+        }
+        #yesBtn { background-color: #ff4d6d; color: white; left: 50%; transform: translateX(-110%); }
+        #noBtn { background-color: #6c757d; color: white; left: 50%; transform: translateX(10%); }
+        #result { display: none; }
+        img { width: 200px; border-radius: 15px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <div id="quiz">
+        <h1 id="question">أحبك.. هل تحبني؟</h1>
+        <p id="funnyText"></p>
+        <div class="buttons">
+            <button id="yesBtn" onclick="showSurprise()">نعم</button>
+            <button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">لا</button>
+        </div>
+    </div>
+
+    <div id="result">
+        <h1>كذبة أول أبريل! 😜</h1>
+        <p>أصلاً كنت بمزح معك.. تعيش وتأكل غيرها!</p>
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHJueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueGZueCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/mlvseq9nOeZh6/giphy.gif" alt="Happy Cat">
+    </div>
+
+    <script>
+        let noCount = 0;
+        const funnyPhrases = [
+            "ليش القسوة؟ جرب مرة ثانية!",
+            "ما توقعتها منك.. فكر منيح!",
+            "الزر عم يهرب لأنك عم تكذب!",
+            "خلص هي آخر فرصة.. قول نعم!"
+        ];
+
+        function moveNo() {
+            if (noCount < 4) {
+                const x = Math.random() * (window.innerWidth - 100);
+                const y = Math.random() * (window.innerHeight - 100);
+                const noBtn = document.getElementById('noBtn');
+                noBtn.style.left = x + 'px';
+                noBtn.style.top = y + 'px';
+                
+                document.getElementById('funnyText').innerText = funnyPhrases[noCount];
+                noCount++;
+            } else {
+                // بعد 4 مرات، يختفي زر "لا" تماماً ويظهر زر "نعم" إضافي
+                document.getElementById('noBtn').style.display = 'none';
+                document.getElementById('funnyText').innerText = "ليش بتكرهني؟ ما في غير نعم هلق!";
+                createExtraYes();
+            }
+        }
+
+        function createExtraYes() {
+            const btn = document.createElement("button");
+            btn.innerHTML = "نعم";
+            btn.style.backgroundColor = "#ff4d6d";
+            btn.style.color = "white";
+            btn.style.left = "30%";
+            btn.style.top = "70%";
+            btn.onclick = showSurprise;
+            document.body.appendChild(btn);
+        }
+
+        function showSurprise() {
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
